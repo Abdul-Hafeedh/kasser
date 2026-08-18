@@ -36,7 +36,30 @@ export async function loadAllData(): Promise<{
       return null;
     }
 
-    const categories = catSnap.docs.map((d) => d.data() as InventoryCategory);
+    // Explicit predefined order by ID / Color:
+    // 1: Red (red), 2: Lightblue (light-blue), 3: Clear/White (clear), 4: Black (black), 5: Blue (blue), 6: Purple (purple), 7: Green (green)
+    const ORDER_MAP: Record<string, number> = {
+      red: 1,
+      "light-blue": 2,
+      clear: 3,
+      white: 3,
+      black: 4,
+      blue: 5,
+      purple: 6,
+      green: 7,
+    };
+
+    const categories = catSnap.docs
+      .map((d) => d.data() as InventoryCategory)
+      .sort((a, b) => {
+        if (a.sortOrder !== undefined && b.sortOrder !== undefined) {
+          return a.sortOrder - b.sortOrder;
+        }
+        const orderA = a.sortOrder ?? ORDER_MAP[a.id] ?? 99;
+        const orderB = b.sortOrder ?? ORDER_MAP[b.id] ?? 99;
+        return orderA - orderB;
+      });
+
     const boxes = boxSnap.docs.map((d) => d.data() as InventoryBox);
     const problems = probSnap.docs.map((d) => d.data() as ProblemReport);
     const wishes = wishSnap.docs.map((d) => d.data() as UserWish);

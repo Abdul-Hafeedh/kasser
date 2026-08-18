@@ -5,6 +5,7 @@ export interface InventoryCategory {
   boxCount: number;
   bgColor: string;
   textColor: string;
+  sortOrder?: number;
 }
 
 export interface InventoryBox {

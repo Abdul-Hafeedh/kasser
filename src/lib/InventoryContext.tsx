@@ -299,9 +299,10 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const result = Array.from(prev);
       const [removed] = result.splice(startIndex, 1);
       result.splice(endIndex, 0, removed);
+      const withOrder = result.map((cat, idx) => ({ ...cat, sortOrder: idx + 1 }));
       // Persist all categories to maintain order
-      fs.saveCategoriesBatch(result).catch(console.error);
-      return result;
+      fs.saveCategoriesBatch(withOrder).catch(console.error);
+      return withOrder;
     });
   };
 
