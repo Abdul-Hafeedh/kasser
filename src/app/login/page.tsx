@@ -11,13 +11,19 @@ export default function LoginPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const activeProblemsCount = problems.filter((p) => !p.isSolved).length;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    login();
-    router.push("/admin");
+    if (username.trim().toLowerCase() === "test" && password === "test") {
+      setErrorMsg("");
+      login();
+      router.push("/admin");
+    } else {
+      setErrorMsg("Forkert brugernavn eller adgangskode. (Brugernavn: test, Adgangskode: test)");
+    }
   };
 
   return (
@@ -62,6 +68,11 @@ export default function LoginPage() {
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            {errorMsg && (
+              <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-xl font-medium">
+                {errorMsg}
+              </div>
+            )}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Brugernavn
