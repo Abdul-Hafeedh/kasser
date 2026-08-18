@@ -8,7 +8,7 @@ import { useInventory } from "@/lib/InventoryContext";
 import { InventoryCategory, InventoryBox } from "@/lib/data";
 import { INITIAL_PROBLEMS, INITIAL_WISHES, ProblemReport, UserWish } from "@/lib/adminData";
 
-import { compressImage } from "@/lib/imageUtils";
+import { compressImage, compressAndUploadImage } from "@/lib/imageUtils";
 
 type AdminTab = "kategorier" | "admin-kategorier" | "problemer" | "onsker";
 type ProblemFilter = "aktive" | "loste";
